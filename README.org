@@ -3,9 +3,12 @@
 
 * Dependencies
 
-* Roadmap [1/5]
+* Roadmap [2/5]
 ** [X] Getting song info
 ** [ ] Getting album cover
-** [ ] Sending notifications on song change
+*** Improve regex to match any file with cover in name
+*** Improve regex to find covers in subfolders (ex. Album has Disc 1 and Disc 2 directories in which covers are located.)
+** [X] Sending notifications on song change
+*** Kinda works? Rewrite needed for status change handling
 ** [ ] Sending notifications on status change (play/pause etc.)
 ** [ ] Configuration file support (not everyone uses default mpd settings)

@@ -39,7 +39,7 @@ pub fn get_metadata() -> Vec<String> {
     //                .unwrap()
     //        ),
     //    );
-    println!("{:?}", metadata);
+    //println!("{:?}", metadata);
     metadata
 }
 
