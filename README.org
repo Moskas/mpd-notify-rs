@@ -1,0 +1,11 @@
+#+title: MPD Notification daemon(?)
+#+author: Moskas
+
+* Dependencies
+
+* Roadmap [1/5]
+** [X] Getting song info
+** [ ] Getting album cover
+** [ ] Sending notifications on song change
+** [ ] Sending notifications on status change (play/pause etc.)
+** [ ] Configuration file support (not everyone uses default mpd settings)
