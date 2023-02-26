@@ -1,8 +1,10 @@
+use crate::config;
 use mpd::Client;
 
 pub fn get_metadata() -> Vec<String> {
-    let mut connection = Client::connect("127.0.0.1:6600").unwrap();
-    let music_dir: String = "/home/moskas/Music/".to_string();
+    let config = config::get_config();
+    let mut connection = Client::connect(&format!("{}:{}", config.ip, config.port)[..]).unwrap();
+    let music_dir: String = config.music_dir;
     let metadata = [
         get_artist(&mut connection),
         get_title(&mut connection),

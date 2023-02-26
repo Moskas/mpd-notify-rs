@@ -1,9 +1,10 @@
+mod config;
 mod notification;
+mod song_info;
 use std::thread::sleep;
 use std::time;
 
 use notification::send_notification;
-mod song_info;
 use song_info::get_metadata;
 
 fn main() {

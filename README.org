@@ -1,14 +1,39 @@
 #+title: MPD Notification daemon(?)
 #+author: Moskas
+#+OPTIONS: \n:t
 
+* About application
+It uses notify-rust so it should work with any notification daemon like dunst or KDE/GNOME/XFCE notifications. For album covers it looks inside a directory that mpd returns as song file directory and it checks whether cover.png or cover.jpg exists in the directory and uses it as an icon.
+Example screenshot with dunst:
+[[./doc/example.png]]
+Structure of the notification is:
+Summary: Now playing:
+Contents: Artist\nTitle\nAlbum
+Icon: Album cover
 * Dependencies
-
-* Roadmap [2/5]
-** [X] Getting song info
-** [ ] Getting album cover
-*** Improve regex to match any file with cover in name
-*** Improve regex to find covers in subfolders (ex. Album has Disc 1 and Disc 2 directories in which covers are located.)
-** [X] Sending notifications on song change
-*** Kinda works? Rewrite needed for status change handling
-** [ ] Sending notifications on status change (play/pause etc.)
-** [ ] Configuration file support (not everyone uses default mpd settings)
+#+BEGIN_SRC toml
+[dependencies]
+notify-rust = "4"
+mpd = "0.0.12"
+toml = "0.7.2"
+serde = "1.0.152"
+#+END_SRC
+* Roadmap
+- [X] Getting song info
+- [ ] Getting album cover
+  + Improve regex to match any file with cover in name
+  + Improve regex to find covers in subfolders (ex. Album has Disc 1 and Disc 2 directories in which covers are located.)
+- [X] Sending notifications on song change
+  Kinda works? Rewrite needed for status change handling
+- [ ] Sending notifications on status change (play/pause etc.)
+- [X] Configuration file support (not everyone uses default mpd settings)
+- [ ] Support for running as a systemd daemon
+* Configuration
+By default application will look for your $HOME/.config directory. It doesn't create it and config file by default. Default fallback config will be added in future commits.
+Default config:
+#+BEGIN_SRC toml
+music_dir = "/home/moskas/Music/"
+ip = "127.0.0.1"
+port = "6600"
+#+END_SRC
+The exact same config file is also located in doc directory.
