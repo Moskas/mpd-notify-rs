@@ -1,15 +1,20 @@
 #+title: MPD Notification daemon(?)
 #+author: Moskas
 #+OPTIONS: \n:t
+#+OPTIONS: line-break:t
 
 * About application
+#+BEGIN_VERSE
 It uses notify-rust so it should work with any notification daemon like dunst or KDE/GNOME/XFCE notifications. For album covers it looks inside a directory that mpd returns as song file directory and it checks whether cover.png or cover.jpg exists in the directory and uses it as an icon.
 Example screenshot with dunst:
-[[./doc/example.png]]
-Structure of the notification is:
-Summary: Now playing:
-Contents: Artist\nTitle\nAlbum
+#+END_VERSE
+[[file:./doc/example.png]]
+#+BEGIN_VERSE
+Structure of the notification is: \\
+Summary: Now playing: \\
+Contents: Artist\nTitle\nAlbum \\
 Icon: Album cover
+#+END_VERSE
 * Dependencies
 #+BEGIN_SRC toml
 [dependencies]
