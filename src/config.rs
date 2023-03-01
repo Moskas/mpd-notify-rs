@@ -12,7 +12,7 @@ pub fn get_config() -> Mpd {
     //println!("{}", std::env::var("HOME").unwrap());
     let config_path: String = format!(
         "{}/.config/mpd-notification/config.toml",
-        std::env::var("HOME").unwrap()
+        dirs::home_dir().unwrap().display() // .config in users $HOME directory
     );
     //println!("{}", config_path);
     //println!("{}", read_to_string(config_path).unwrap());

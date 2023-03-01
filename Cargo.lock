@@ -460,6 +460,7 @@ dependencies = [
 name = "mpd-notify-rs"
 version = "0.1.0"
 dependencies = [
+ "dirs",
  "mpd",
  "notify-rust",
  "serde",
