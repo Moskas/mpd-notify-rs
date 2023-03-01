@@ -1,3 +1,5 @@
 /target
 /result
+/pkg
+/src/mpd-notify-rs/
 README.html
