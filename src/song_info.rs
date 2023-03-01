@@ -11,8 +11,9 @@ pub fn get_metadata() -> Vec<String> {
         get_albumname(&mut connection),
         format!(
             "{}{}",
-            music_dir,
+            music_dir.clone(),
             get_album_cover(
+                music_dir.clone(),
                 connection
                     .currentsong()
                     .unwrap()
@@ -26,22 +27,6 @@ pub fn get_metadata() -> Vec<String> {
         ),
     ]
     .to_vec();
-    //    println!(
-    //        "{}",
-    //        format!(
-    //            "{}{}",
-    //            music_dir,
-    //            connection
-    //                .currentsong()
-    //                .unwrap()
-    //                .unwrap()
-    //                .file
-    //                .split("/")
-    //                .next()
-    //                .unwrap()
-    //        ),
-    //    );
-    //println!("{:?}", metadata);
     metadata
 }
 
@@ -72,12 +57,15 @@ fn get_albumname(connection: &mut Client) -> String {
     }
 }
 
-pub fn get_album_cover(album_direcotry: String) -> String {
-    if std::path::Path::new(&format!("{}cover.png", album_direcotry)[..]).exists() {
+pub fn get_album_cover(music_directory: String, album_directory: String) -> String {
+    //println!("{}{}", music_directory, album_directory);
+    if std::path::Path::new(&format!("{}{}/cover.png", music_directory, album_directory)[..])
+        .exists()
+    {
         //print!("png");
-        return format!("{}/cover.png", album_direcotry);
+        return format!("{}/cover.png", album_directory);
     } else {
         //print!("jpg");
-        return format!("{}/cover.jpg", album_direcotry);
+        return format!("{}/cover.jpg", album_directory);
     }
 }
