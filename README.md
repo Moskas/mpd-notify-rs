@@ -31,15 +31,11 @@ dirs = "4.0.0"
 
 # Roadmap
 
-- Getting song info
-- Getting album cover
-  - Improve regex to match any file with cover in name
-  - Improve regex to find covers in subfolders (ex. Album has Disc 1 and Disc 2 directories in which covers are located.)
-- Sending notifications on song change
-    Kinda works? Rewrite needed for status change handling
-- Sending notifications on status change (play/pause etc.)
-- More configuration file support
-- - Support for running as a systemd daemon
+- Improve regex to find covers in subfolders (ex. Album has Disc 1 and Disc 2 directories in which covers are located.)
+- More configuration options:
+  - Text formatting
+  - Timeout setting
+- Support for running as a systemd daemon
 
 # Configuration
 
@@ -52,6 +48,7 @@ Default config:
 music_dir = "/home/moskas/Music/"
 ip = "127.0.0.1"
 port = "6600"
+use_cover = true
 ```
 
 The exact same config file is also located in doc directory.

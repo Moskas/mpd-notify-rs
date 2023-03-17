@@ -1,7 +1,3 @@
-#!/usr/bin/env zsh
-
-# Maintainer: Walter - "d2Nhc2Fub3ZhQGRpc3Jvb3Qub3JnCg==" - use base64 -d
-
 pkgname="mpd-notification-rs"
 _pkgname="mpd-notify-rs"
 pkgver=0.1.0

@@ -1,19 +1,15 @@
-use crate::config;
 use mpd::Client;
 
-pub fn get_metadata() -> Vec<String> {
-    let config = config::get_config();
-    let mut connection = Client::connect(&format!("{}:{}", config.ip, config.port)[..]).unwrap();
-    let music_dir: String = config.music_dir;
+pub fn get_metadata(music_directory: String, mut connection: &mut Client) -> Vec<String> {
     let metadata = [
         get_artist(&mut connection),
         get_title(&mut connection),
         get_albumname(&mut connection),
         format!(
             "{}{}",
-            music_dir.clone(),
+            music_directory.clone(),
             get_album_cover(
-                music_dir.clone(),
+                music_directory.clone(),
                 connection
                     .currentsong()
                     .unwrap()
@@ -51,7 +47,13 @@ fn get_artist(connection: &mut Client) -> String {
 }
 
 fn get_albumname(connection: &mut Client) -> String {
-    match connection.currentsong().unwrap().unwrap().tags.get("Album") {
+    match connection
+        .currentsong()
+        .expect("Test")
+        .unwrap()
+        .tags
+        .get("Album")
+    {
         Some(album_name) => album_name.to_string(),
         None => "Unknown".to_string(),
     }

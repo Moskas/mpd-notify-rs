@@ -6,7 +6,14 @@ pub struct Mpd {
     pub music_dir: String,
     pub ip: String,
     pub port: String,
+    pub use_cover: bool,
 }
+
+//#[derive(Deserialize)]
+//pub struct Notification {
+//    pub use_cover: bool,
+//    pub show_status_changes: bool,
+//}
 
 pub fn get_config() -> Mpd {
     //println!("{}", std::env::var("HOME").unwrap());
