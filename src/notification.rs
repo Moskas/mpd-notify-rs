@@ -6,21 +6,28 @@ use notify_rust::Notification;
 pub fn send_notification(metadata: Vec<String>, state: State, use_cover: bool) {
     match state {
         State::Play => {
-            if use_cover {
-                Notification::new()
-                    .summary("Now playing:")
-                    .body(&format!("{}\n{}\nfrom {}", metadata[0], metadata[1], metadata[2])[..])
-                    .timeout(5000)
-                    .image_path(&format!("{}", metadata[3])[..]) // finding cover image path WIP
-                    .show()
-                    .unwrap();
-            } else {
-                Notification::new()
-                    .summary("Now playing:")
-                    .body(&format!("{}\n{}\nfrom {}", metadata[0], metadata[1], metadata[2])[..])
-                    .timeout(5000)
-                    .show()
-                    .unwrap();
+            match use_cover {
+                true => {
+                    Notification::new()
+                        .summary("Now playing:")
+                        .body(
+                            &format!("{}\n{}\nfrom {}", metadata[0], metadata[1], metadata[2])[..],
+                        )
+                        .timeout(5000)
+                        .image_path(&format!("{}", metadata[3])[..]) // finding cover image path WIP
+                        .show()
+                        .unwrap();
+                }
+                false => {
+                    Notification::new()
+                        .summary("Now playing:")
+                        .body(
+                            &format!("{}\n{}\nfrom {}", metadata[0], metadata[1], metadata[2])[..],
+                        )
+                        .timeout(5000)
+                        .show()
+                        .unwrap();
+                }
             }
         }
         State::Pause => {

@@ -10,5 +10,5 @@ edition = "2021"
 notify-rust = "4"
 mpd = "0.0.12"
 toml = "0.7.2"
-serde = { version = "1.0.152" , features = ["derive"] }
+serde = { version = "1.0.156" , features = ["derive"] }
 dirs = "4.0.0"
