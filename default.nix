@@ -1,30 +1,11 @@
-with import <nixpkgs> { };
-{ lib, fetchFromGitHub, rustPlatform, fetchgit }:
+{ pkgs ? import <nixpkgs> { } }:
+pkgs.mkShell {
+  nativeBuildInputs = with pkgs; [ rustc cargo gcc rustfmt clippy ];
 
-rustPlatform.buildRustPackage rec {
-  pname = "mpd-notification-rs";
-  version = "0.1.0";
+  # Certain Rust tools won't work without this
+  # This can also be fixed by using oxalica/rust-overlay and specifying the rust-src extension
+  # See https://discourse.nixos.org/t/rust-src-not-found-and-other-misadventures-of-developing-rust-on-nixos/11570/3?u=samuela. for more details.
+  RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
 
-  cargoLock = {
-    lockFile = ./Cargo.lock;
-    #allowBuiltinFetchGit = true;
-  };
-
-  src = fetchgit {
-    url = "http://optiplex.home/git/mpd-rust-utils/mpd-notification-rs";
-    #owner = "mpd-rust-utils";
-    #repo = "mpd-notification-rs";
-    #rev = version;
-    #hash = "sha256-+s5RBC3XSgb8omTbUNLywZnP6jSxZBKSS1BmXOjRF8M=";
-    hash = "sha256-xwhnmS01rKPvaxaORVR+EuiAYLkL4VeWKUvZW466vSA=";
-  };
-
-  cargoHash = lib.fakeHash;
-
-  meta = with lib; {
-    description = "MPD Notification daemon";
-    homepage = "http://optiplex.home/git/mpd-rust-utils/mpd-notification-rs";
-    license = licenses.mit;
-    maintainers = [ ];
-  };
+  PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
 }
