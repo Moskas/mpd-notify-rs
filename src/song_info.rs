@@ -1,17 +1,27 @@
 use mpd::Client;
 
-pub fn get_metadata(music_directory: String, connection: &mut Client) -> Vec<String> {
+pub struct Metadata {
+    pub artist: String,
+    pub title: String,
+    pub album_name: String,
+    pub album_cover: String,
+}
+
+pub fn get_metadata(music_directory: String, connection: &mut Client) -> Metadata {
     let current_song = connection.currentsong().unwrap().unwrap();
-    let file_name = current_song.file.split('/').next().unwrap().to_string();
+    let album_directory = current_song.file.split('/').next().unwrap().to_string();
 
-    let metadata = vec![
-        get_artist(connection),
-        get_title(connection),
-        get_albumname(connection),
-        format!("{}{}", music_directory, get_album_cover(file_name)),
-    ];
+    let artist = get_artist(connection);
+    let title = get_title(connection);
+    let album_name = get_album_name(connection);
+    let album_cover = get_album_cover(album_directory.clone(), music_directory.to_string());
 
-    metadata
+    Metadata {
+        artist,
+        title,
+        album_name,
+        album_cover,
+    }
 }
 
 fn get_title(connection: &mut Client) -> String {
@@ -30,7 +40,7 @@ fn get_artist(connection: &mut Client) -> String {
         .expect("No artist metadata is present")
 }
 
-fn get_albumname(connection: &mut Client) -> String {
+fn get_album_name(connection: &mut Client) -> String {
     let tags = get_tags(connection);
     for (key, value) in &tags {
         if key == "Album" {
@@ -49,13 +59,15 @@ pub fn get_tags(connection: &mut Client) -> Vec<(String, String)> {
     current_song.tags.clone()
 }
 
-pub fn get_album_cover(album_directory: String) -> String {
-    let cover_extension =
-        if std::path::Path::new(&format!("{}/cover.png", album_directory)).exists() {
-            "png"
-        } else {
-            "jpg"
-        };
-
-    format!("{}/cover.{}", album_directory, cover_extension)
+pub fn get_album_cover(album_directory: String, music_directory: String) -> String {
+    //println!("{}",album_directory);
+    let cover_extension = if std::path::Path::new(&format!("{}{}/cover.png", music_directory, album_directory))
+        .exists()
+    {
+        "png"
+    } else {
+        "jpg"
+    };
+    //println!("{}{}/cover.{}", music_directory, album_directory, cover_extension);
+    format!("{}{}/cover.{}", music_directory, album_directory, cover_extension)
 }
