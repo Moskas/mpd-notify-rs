@@ -3,25 +3,26 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      follows = "nixpkgs";
-    };
+    naersk.url = "github:nix-community/naersk";
+    flake-utils.url = "github:numtide/flake-utils";
   };
-  outputs = { self, nixpkgs, ... }:
-    let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
-    in
-    {
-      devShell.x86_64-linux = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          rustc
-          cargo
-          rust-analyzer
-          rustPackages.clippy
-          rustfmt
-        ];
-      };
-    };
+  outputs = { self, flake-utils, naersk, nixpkgs }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = (import nixpkgs) { inherit system; };
+        naersk' = pkgs.callPackage naersk { };
+
+      in rec {
+        defaultPackage = naersk'.buildPackage { src = ./.; };
+
+        devShell = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            rustc
+            cargo
+            rust-analyzer
+            rustPackages.clippy
+            rustfmt
+          ];
+        };
+      });
 }
