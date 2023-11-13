@@ -12,3 +12,4 @@ mpd = "0.1.0"
 toml = "0.8.0"
 serde = { version = "1.0.156" , features = ["derive"] }
 dirs = "5.0.1"
+walkdir = "2.4.0"

@@ -1,4 +1,5 @@
 use mpd::Client;
+use walkdir::WalkDir;
 
 pub struct Metadata {
     pub artist: String,
@@ -60,14 +61,15 @@ pub fn get_tags(connection: &mut Client) -> Vec<(String, String)> {
 }
 
 pub fn get_album_cover(album_directory: String, music_directory: String) -> String {
-    //println!("{}",album_directory);
-    let cover_extension = if std::path::Path::new(&format!("{}{}/cover.png", music_directory, album_directory))
-        .exists()
-    {
-        "png"
-    } else {
-        "jpg"
-    };
-    //println!("{}{}/cover.{}", music_directory, album_directory, cover_extension);
-    format!("{}{}/cover.{}", music_directory, album_directory, cover_extension)
+    let file_names = vec!["cover.png", "cover.jpg", "Cover.png", "Cover.jpg"];
+    let search_path: WalkDir = WalkDir::new(format!("{}{}", music_directory, album_directory));
+    for entry in search_path.into_iter() {
+        let temp_entry = entry.unwrap();
+        if let Some(file_name) = temp_entry.file_name().to_str() {
+            if file_names.contains(&file_name) {
+                return format!("{}", temp_entry.path().display());
+            }
+        }
+    }
+    String::from("None")
 }
