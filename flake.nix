@@ -11,10 +11,8 @@
       let
         pkgs = (import nixpkgs) { inherit system; };
         naersk' = pkgs.callPackage naersk { };
-
-      in rec {
+      in {
         defaultPackage = naersk'.buildPackage { src = ./.; };
-
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
             rustc
